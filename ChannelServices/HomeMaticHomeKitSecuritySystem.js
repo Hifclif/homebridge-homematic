@@ -82,8 +82,8 @@ HomeMaticHomeKitSecuritySystem.prototype.createDeviceService = function(Service,
 HomeMaticHomeKitSecuritySystem.prototype.datapointEvent = function(dp,newValue) {
 	if (dp == "4:ARMSTATE") {
 		// Set ArmState to all Current and Target
-		 var cs = secsys.getCharacteristic(Characteristic.SecuritySystemCurrentState)
-		 ca.setValue(newValue,null);
+		 var ts = secsys.getCharacteristic(Characteristic.SecuritySystemTargetState)
+		 ts.setValue(newValue,null);
 	}
 }
 
