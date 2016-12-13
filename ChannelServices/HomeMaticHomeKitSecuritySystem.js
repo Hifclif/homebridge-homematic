@@ -83,7 +83,10 @@ HomeMaticHomeKitSecuritySystem.prototype.datapointEvent = function(dp,newValue) 
 	if (dp == "4:ARMSTATE") {
 		// Set ArmState to all Current and Target
 		 var ts = this.secsys.getCharacteristic(Characteristic.SecuritySystemTargetState)
-		 ts.setValue(newValue,null);
+		 If (newValue == 0) { rs.setValue(Characteristic.SecuritySystemTargetState.DISARM,null);}
+		 If (newValue == 1) { rs.setValue(Characteristic.SecuritySystemTargetState.NIGHT_ARM,null);}
+		 If (newValue == 2) { rs.setValue(Characteristic.SecuritySystemTargetState.AWAY_ARM,null);}
+		 If (newValue == 3) { rs.setValue(Characteristic.SecuritySystemTargetState.STAY_ARM,null);}
 	}
 }
 
