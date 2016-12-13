@@ -212,6 +212,11 @@ HomeKitGenericService.prototype = {
     
   },
 
+
+  datapointEvent:function(dp,newValue) {
+	  // just a stub
+  },
+
   event:function(dp,newValue) {
   
     var that = this;
@@ -249,6 +254,7 @@ HomeKitGenericService.prototype = {
        that.isWorking = newValue;
     }
     
+    
     this.eventupdate = true;
     if (this.cadress!=undefined) {
     // this is dirty shit. ok there is a config that will set the cadress to a defined channel
@@ -258,9 +264,11 @@ HomeKitGenericService.prototype = {
        var pos = this.adress.indexOf(":");
  	   if (pos !=-1 ) {
 	     var chnl = this.adress.substr(pos+1,this.adress.length);
-  	     this.cache(chnl + ":" + dp,newValue);
+	     this.datapointEvent(chnl + ":" + dp,newValue);
+	     this.cache(chnl + ":" + dp,newValue);
 	   }
     } else {
+	    this.datapointEvent(dp,newValue);
         this.cache(dp,newValue);
     }
     this.eventupdate = false;
@@ -277,6 +285,15 @@ HomeKitGenericService.prototype = {
     return result;
   },
 
+  stateCharacteristicWillChange: function(characteristic,newValue) {
+	  // just a stub
+  },
+  
+  stateCharacteristicDidChange: function(characteristic,newValue) {
+	  // just a stub
+  },
+
+  
   cache:function(dp,value) {
     var that = this;
     
@@ -291,7 +308,9 @@ HomeKitGenericService.prototype = {
     if ((value!=undefined) && (that.isWorking==false)) {
 
 	  if (that.currentStateCharacteristic[dp]!=undefined) {
+		  that.stateCharacteristicWillChange(that.currentStateCharacteristic[dp],value);
 		  that.currentStateCharacteristic[dp].setValue(value, null);
+		  that.stateCharacteristicDidChange(that.currentStateCharacteristic[dp],value);
       } 
     if (this.usecache) {
 	    this.state[dp] = value; 
